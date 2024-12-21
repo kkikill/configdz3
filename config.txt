@@ -1,7 +1,85 @@
-REM Пример конфигурации
-def x := 10;
-def y := x + 20;
-table(
-    key1 => x * 2,
-    key2 => y - 5
-);
+{
+  "tests": [
+    {
+      "name": "Тест на правильный синтаксис и вычисления",
+      "description": "Проверка синтаксиса и выполнения арифметических операций с переменными",
+      "input": [
+        "REM Это комментарий",
+        "begin",
+        "name : 123;",
+        "ASd : 456.78;",
+        "zxc : 789;",
+        "end",
+        "var first := 1233;",
+        "var second := 624;",
+        "var result := first + second;",
+        "var five := 5;",
+        "var two := 2;",
+        "var minus := five - two;",
+        "var result? := five + two + minus;",
+        "var citty := max(first, second, five, two, cat);",
+        "def cat := 999;"
+      ],
+      "expected_output": {
+        "variables": {
+          "name": 123,
+          "ASd": 456.78,
+          "zxc": 789,
+          "first": 1233,
+          "second": 624,
+          "result": 1857,
+          "five": 5,
+          "two": 2,
+          "minus": 3,
+          "result2": 10,
+          "citty": "max(first, second, five, two, cat)",
+          "cat": 999
+        },
+        "errors": []
+      },
+      "description": "Тестирует корректность выполнения операций и обработки данных в конфигурации."
+    },
+    {
+      "name": "Тест на ошибку с недопустимым символом ?",
+      "description": "Проверка на синтаксическую ошибку с использованием символа ? в имени переменной",
+      "input": [
+        "var result? := five + two + minus;",
+        "def cat := 999;"
+      ],
+      "expected_output": {
+        "variables": {},
+        "errors": [
+          "Ошибка: некорректное использование символа ? в имени переменной 'result?'"
+        ]
+      },
+      "description": "Тестирует синтаксическую ошибку при попытке использовать символ ? в имени переменной."
+    },
+    {
+      "name": "Тест на ошибку с недопустимой переменной cat в функции max",
+      "description": "Проверка на синтаксическую ошибку с переменной cat в функции max",
+      "input": [
+        "var first := 1233;",
+        "var second := 624;",
+        "var five := 5;",
+        "var two := 2;",
+        "var minus := five - two;",
+        "var citty := max(first, second, five, two, cat);",
+        "def cat := 999;"
+      ],
+      "expected_output": {
+        "variables": {
+          "first": 1233,
+          "second": 624,
+          "five": 5,
+          "two": 2,
+          "minus": 3,
+          "citty": "max(first, second, five, two, cat)"
+        },
+        "errors": [
+          "Ошибка: некорректная переменная 'cat' в функции 'max'."
+        ]
+      },
+      "description": "Тестирует ошибку синтаксиса с использованием переменной cat в функции max."
+    }
+  ]
+}
